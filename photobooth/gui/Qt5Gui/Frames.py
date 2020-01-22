@@ -16,6 +16,9 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+# KZ -> Traduzione testi in italiano
+#
 
 import logging
 import os
@@ -47,16 +50,16 @@ class Welcome(QtWidgets.QFrame):
     def initFrame(self, start_action, set_date_action, settings_action,
                   exit_action):
 
-        btnStart = QtWidgets.QPushButton(_('Start photobooth'))
+        btnStart = QtWidgets.QPushButton(_('Avvia photobooth'))
         btnStart.clicked.connect(start_action)
 
-        btnSetDate = QtWidgets.QPushButton(_('Set date/time'))
+        btnSetDate = QtWidgets.QPushButton(_('Imposta data/ora'))
         btnSetDate.clicked.connect(set_date_action)
 
-        btnSettings = QtWidgets.QPushButton(_('Settings'))
+        btnSettings = QtWidgets.QPushButton(_('Impostazioni'))
         btnSettings.clicked.connect(settings_action)
 
-        btnQuit = QtWidgets.QPushButton(_('Quit'))
+        btnQuit = QtWidgets.QPushButton(_('Esci'))
         btnQuit.clicked.connect(exit_action)
 
         btnLay = QtWidgets.QHBoxLayout()
@@ -84,8 +87,8 @@ class IdleMessage(QtWidgets.QFrame):
         super().__init__()
         self.setObjectName('IdleMessage')
 
-        self._message_label = _('Hit the')
-        self._message_button = _('Button!')
+        self._message_label = _('Premi il ')
+        self._message_button = _('Pulsante!')
 
         self.initFrame(trigger_action)
 
@@ -108,8 +111,8 @@ class GreeterMessage(QtWidgets.QFrame):
         super().__init__()
         self.setObjectName('GreeterMessage')
 
-        self._text_title = _('Get ready!')
-        self._text_button = _('Start countdown')
+        self._text_title = _('Mettiti in posa!')
+        self._text_button = _('Inzio conto alla rovescia')
 
         num_pictures = max(num_x * num_y - len(skip), 1)
         if num_pictures > 1:
@@ -148,7 +151,7 @@ class CaptureMessage(QtWidgets.QFrame):
             self._text = _('Picture {} of {}...').format(num_picture,
                                                          num_pictures)
         else:
-            self._text = 'Taking a photo...'
+            self._text = 'Scatto la foto...'
 
         self.initFrame()
 
@@ -339,7 +342,7 @@ class PostprocessMessage(Widgets.TransparentOverlay):
             return button
 
         buttons = [createButton(task) for task in tasks]
-        buttons.append(QtWidgets.QPushButton(_('Start over')))
+        buttons.append(QtWidgets.QPushButton(_('Ricomincia')))
         buttons[-1].clicked.connect(idle_handle)
 
         button_lay = QtWidgets.QGridLayout()
@@ -348,7 +351,7 @@ class PostprocessMessage(Widgets.TransparentOverlay):
             button_lay.addWidget(button, *pos)
 
         layout = QtWidgets.QVBoxLayout()
-        layout.addWidget(QtWidgets.QLabel(_('Happy?')))
+        layout.addWidget(QtWidgets.QLabel(_('Stampa?')))
         layout.addLayout(button_lay)
         self.setLayout(layout)
 
@@ -384,7 +387,7 @@ class SetDateTime(QtWidgets.QFrame):
         layout.addRow(_('Time:'), self._time_widget)
 
         widget = QtWidgets.QGroupBox()
-        widget.setTitle(_('Set system date and time:'))
+        widget.setTitle(_('Imposta data e ora di sistema:'))
         widget.setLayout(layout)
         return widget
 
@@ -393,11 +396,11 @@ class SetDateTime(QtWidgets.QFrame):
         layout = QtWidgets.QHBoxLayout()
         layout.addStretch(1)
 
-        btnSave = QtWidgets.QPushButton(_('Save and restart'))
+        btnSave = QtWidgets.QPushButton(_('Salva e riavvia'))
         btnSave.clicked.connect(self.saveAndRestart)
         layout.addWidget(btnSave)
 
-        btnCancel = QtWidgets.QPushButton(_('Cancel'))
+        btnCancel = QtWidgets.QPushButton(_('Annulla'))
         btnCancel.clicked.connect(self._cancelAction)
         layout.addWidget(btnCancel)
 
@@ -485,15 +488,15 @@ class Settings(QtWidgets.QFrame):
         layout = QtWidgets.QHBoxLayout()
         layout.addStretch(1)
 
-        btnSave = QtWidgets.QPushButton(_('Save and restart'))
+        btnSave = QtWidgets.QPushButton(_('Salva e riavvia'))
         btnSave.clicked.connect(self.storeConfigAndRestart)
         layout.addWidget(btnSave)
 
-        btnCancel = QtWidgets.QPushButton(_('Cancel'))
+        btnCancel = QtWidgets.QPushButton(_('Annulla'))
         btnCancel.clicked.connect(self._cancelAction)
         layout.addWidget(btnCancel)
 
-        btnRestore = QtWidgets.QPushButton(_('Restore defaults'))
+        btnRestore = QtWidgets.QPushButton(_('Ripristina impostazioni'))
         btnRestore.clicked.connect(self.restoreDefaults)
         layout.addWidget(btnRestore)
 
