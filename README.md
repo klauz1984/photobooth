@@ -60,12 +60,6 @@ Default settings are stored in [`defaults.cfg`](photobooth/defaults.cfg) and can
 
 The software design is very modular.
 
-#### klauz edit
-
-* Italian translation
-* Add 2 button [print] & [restart] where take photo
-Feel free to add new postprocessing components, a GUI based on some other library, etc.
-
 ## Feedback and bugs
 I appreciate any feedback or bug reports.
 Please submit them via the [Issue tracker](https://github.com/reuterbal/photobooth/issues/new?template=bug_report.md) and always include your `photobooth.log` file (is created automatically in the top folder) and a description of your hardware and software setup.
@@ -77,3 +71,16 @@ If you find this application useful, please consider [buying me a coffee](https:
 
 ## License
 I provide this code under AGPL v3. See [LICENSE](https://github.com/reuterbal/photobooth/blob/master/LICENSE.txt).
+
+
+
+
+
+
+
+
+#### klauz edit
+
+* Italian translation
+* Add 2 button [print] & [restart] where take photo
+Feel free to add new postprocessing components, a GUI based on some other library, etc.
