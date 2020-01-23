@@ -70,13 +70,14 @@ class Welcome(QtWidgets.QFrame):
 
         title = QtWidgets.QLabel(_('photobooth'))
 
-        url = 'https://github.com/reuterbal/photobooth'
-        link = QtWidgets.QLabel('<a href="{0}">{0}</a>'.format(url))
+        #url = 'https://github.com/reuterbal/photobooth'
+        #url = 'https://github.com/klauz1984/photobooth/'
+        #link = QtWidgets.QLabel('<a href="{0}">{0}</a>'.format(url))
 
         lay = QtWidgets.QVBoxLayout()
         lay.addWidget(title)
         lay.addLayout(btnLay)
-        lay.addWidget(link)
+        #lay.addWidget(link)
         self.setLayout(lay)
 
 
@@ -788,6 +789,16 @@ class Settings(QtWidgets.QFrame):
         trig_pin.setRange(1, 40)
         trig_pin.setValue(self._cfg.getInt('Gpio', 'trigger_pin'))
         self.add('Gpio', 'trigger_pin', trig_pin)
+        
+        print_pin = QtWidgets.QSpinBox()
+        print_pin.setRange(1, 40)
+        print_pin.setValue(self._cfg.getInt('Gpio', 'print_pin'))
+        self.add('Gpio', 'print_pin', print_pin)
+        
+        restart_pin = QtWidgets.QSpinBox()
+        restart_pin.setRange(1, 40)
+        restart_pin.setValue(self._cfg.getInt('Gpio', 'restart_pin'))
+        self.add('Gpio', 'restart_pin', restart_pin)
 
         lamp_pin = QtWidgets.QSpinBox()
         lamp_pin.setRange(1, 40)
@@ -818,6 +829,8 @@ class Settings(QtWidgets.QFrame):
         layout.addRow(_('Enable GPIO:'), enable)
         layout.addRow(_('Exit button pin (BCM numbering):'), exit_pin)
         layout.addRow(_('Trigger button pin (BCM numbering):'), trig_pin)
+        layout.addRow(_('Print button pin (BCM numbering):'), print_pin)
+        layout.addRow(_('Restart button pin (BCM numbering):'), restart_pin)
         layout.addRow(_('Idle lamp pin (BCM numbering):'), lamp_pin)
         layout.addRow(_('RGB LED pins (BCM numbering):'), lay_rgb)
 
@@ -860,11 +873,11 @@ class Settings(QtWidgets.QFrame):
         lay_size.addWidget(height)
 
         layout = QtWidgets.QFormLayout()
-        layout.addRow(_('Enable printing:'), enable)
+        layout.addRow(_('Abilita stampa:'), enable)
         layout.addRow(_('Module:'), module)
-        layout.addRow(_('Print to PDF (for debugging):'), pdf)
-        layout.addRow(_('Ask for confirmation before printing:'), confirmation)
-        layout.addRow(_('Paper size [mm]:'), lay_size)
+        layout.addRow(_('Stampa su PDF (debugging):'), pdf)
+        layout.addRow(_('Richiedi conferma prima di stampare:'), confirmation)
+        layout.addRow(_('Dimensione pagina [mm]:'), lay_size)
 
         widget = QtWidgets.QWidget()
         widget.setLayout(layout)
@@ -1031,6 +1044,14 @@ class Settings(QtWidgets.QFrame):
         self._cfg.set('Gpio', 'exit_pin', self.get('Gpio', 'exit_pin').text())
         self._cfg.set('Gpio', 'trigger_pin',
                       self.get('Gpio', 'trigger_pin').text())
+        
+        
+        self._cfg.set('Gpio', 'print_pin',
+                      self.get('Gpio', 'print_pin').text())
+        self._cfg.set('Gpio', 'restart_pin',
+                      self.get('Gpio', 'restart_pin').text())
+        
+        
         self._cfg.set('Gpio', 'lamp_pin', self.get('Gpio', 'lamp_pin').text())
         self._cfg.set('Gpio', 'chan_r_pin',
                       self.get('Gpio', 'chan_r_pin').text())
