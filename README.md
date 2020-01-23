@@ -72,7 +72,7 @@ If you find this application useful, please consider [buying me a coffee](https:
 ## License
 I provide this code under AGPL v3. See [LICENSE](https://github.com/reuterbal/photobooth/blob/master/LICENSE.txt).
 
-
+Feel free to add new postprocessing components, a GUI based on some other library, etc.
 
 
 
@@ -83,4 +83,4 @@ I provide this code under AGPL v3. See [LICENSE](https://github.com/reuterbal/ph
 
 * Italian translation
 * Add 2 button [print] & [restart] where take photo
-Feel free to add new postprocessing components, a GUI based on some other library, etc.
+
