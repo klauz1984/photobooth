@@ -34,6 +34,10 @@ class Gpio:
         self._comm = comm
         self._gpio = None
 
+        #Aggiunto restrt e print
+        self._is_print_trigger = False
+        self._is_restart_trigger = False
+        #FINE
         self._is_trigger = False
         self._is_enabled = config.getBool('Gpio', 'enable')
         self._countdown_time = config.getInt('Photobooth', 'countdown_time')
@@ -47,6 +51,8 @@ class Gpio:
 
             lamp_pin = config.getInt('Gpio', 'lamp_pin')
             trigger_pin = config.getInt('Gpio', 'trigger_pin')
+            print_pin = config.getInt('Gpio', 'print_pin')
+            restart_pin = config.getInt('Gpio', 'restart_pin')
             exit_pin = config.getInt('Gpio', 'exit_pin')
 
             rgb_pin = (config.getInt('Gpio', 'chan_r_pin'),
@@ -54,12 +60,14 @@ class Gpio:
                        config.getInt('Gpio', 'chan_b_pin'))
 
             logging.info(('GPIO enabled (lamp_pin=%d, trigger_pin=%d, '
-                         'exit_pin=%d, rgb_pins=(%d, %d, %d))'),
-                         lamp_pin, trigger_pin, exit_pin, *rgb_pin)
+                         'exit_pin=%d, rgb_pins=(%d, %d, %d)), print_pin=%d, restart_pin=%d'),
+                         lamp_pin, trigger_pin, exit_pin, *rgb_pin, print_pin, restart_pin)
 
             self._gpio.setButton(trigger_pin, self.trigger)
             self._gpio.setButton(exit_pin, self.exit)
             self._lamp = self._gpio.setLamp(lamp_pin)
+            self._gpio.setButton(print_pin, self.print_trigger)
+            self._gpio.setButton(restart_pin, self.restart_trigger)
             self._rgb = self._gpio.setRgb(rgb_pin)
         else:
             logging.info('GPIO disabled')
@@ -100,15 +108,33 @@ class Gpio:
         if self._is_enabled:
             self._is_trigger = True
             self._gpio.lampOn(self._lamp)
-
+#TRIGGER PRINT
     def disableTrigger(self):
-
         if self._is_enabled:
             self._is_trigger = False
             self._gpio.lampOff(self._lamp)
-
+    
+    def enablePrintTrigger(self):
+        if self._is_enabled:
+            self._is_print_trigger = True
+#TRIGGER PRINT
+#TRIGGER RESTART    
+    def enableRestartTrigger(self):
+        if self._is_enabled:
+            self._is_restart_trigger = True        
+            
+    def disableRestartTrigger(self):
+        if self._is_enabled:
+            self._is_restart_trigger = False
+#TRIGGER RESTART 
+  
+    def disableTrigger(self):
+        if self._is_enabled:
+            self._is_trigger = False
+            self._gpio.lampOff(self._lamp)
+            
     def setRgbColor(self, r, g, b):
-
+   
         if self._is_enabled:
             self._gpio.rgbColor(self._rgb, (r, g, b))
 
@@ -136,6 +162,18 @@ class Gpio:
             self.disableTrigger()
             self._comm.send(Workers.MASTER, StateMachine.GpioEvent('trigger'))
 
+            def print_trigger(self):
+        
+        if self._is_print_trigger:
+            logging.debug("IN TRIGGERr")
+            self.disablePrintTrigger()
+            self._comm.send(Workers.MASTER, StateMachine.GpioEvent('print'))
+        
+        if self._is_restart_trigger:
+            logging.debug("IN TRIGGERr")
+            self.disableRestart_Trigger()
+            self._comm.send(Workers.MASTER, StateMachine.GpioEvent('restart'))
+            
     def exit(self):
 
         self._comm.send(
@@ -145,7 +183,9 @@ class Gpio:
     def showIdle(self):
 
         self.enableTrigger()
-
+        self.disablePrintTrigger()
+        self.disableRestartTrigger()
+        
         if self._is_enabled:
             h, s, v = 0, 1, 1
             while self._comm.empty(Workers.GPIO):
@@ -179,7 +219,10 @@ class Gpio:
 
     def showPostprocess(self):
 
-        pass
+        self.enablePrintTrigger()
+        self.enableRestartTrigger()
+        
+        #pass
 
 
 class Entities:
